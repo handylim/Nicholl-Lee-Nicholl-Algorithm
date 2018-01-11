@@ -1,0 +1,13 @@
+canvas {
+	border: 1px solid #000000;
+	margin: 5px 5px 5px 10px;
+}
+
+ul.collection.with-header {
+	overflow-y: scroll;
+}
+
+p#coordinate {
+	margin: 0;
+	font-size: 20px;
+}
