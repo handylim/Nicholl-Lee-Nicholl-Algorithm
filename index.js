@@ -49,6 +49,18 @@ function clearCanvas () {
 	context.clearRect(0, 0, canvasWidth, canvasHeight);
 }
 
+function refreshCanvas (interval) {
+	if (typeof interval === 'undefined') interval = 200;
+	clearCanvas();
+	setTimeout(function () {
+		for (var i = 0; i < data.length; i++)
+			if (data[i].type === 'dot')
+				drawDot(data[i].x, data[i].y);
+			else if (data[i].type === 'line')
+				drawLine(data[i].start.x, data[i].start.y, data[i].end.x, data[i].end.y);
+	}, interval);
+}
+
 function deleteData (x1, y1, x2, y2) { // x2 and y2 are undefined in deleting dot
 	var temp = JSON.parse(JSON.stringify(data)); // deep copy
 	clearCanvas();
@@ -110,5 +122,8 @@ $(document).ready(function () {
 	});
 	$('#lineButton').on('click', function () {
 		mode = 'line';
+	});
+	$('#refreshButton').on('click', function () {
+		refreshCanvas();
 	});
 });
