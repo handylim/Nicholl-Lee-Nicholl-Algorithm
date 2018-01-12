@@ -77,7 +77,8 @@ var mode        = 'line',
     inProcess   = false,
     dotCounter  = 0,
     lineCounter = 0,
-    list = $('ul.collection.with-header');
+    list = $('ul.collection.with-header'),
+    tempX, tempY;
 
 $(document).ready(function () {
 	$('h1').remove();
@@ -125,5 +126,17 @@ $(document).ready(function () {
 	});
 	$('#refreshButton').on('click', function () {
 		refreshCanvas();
+	});
+	$('#loadButton').on('change', function () {
+		var file   = document.querySelector('#loadButton').files[0],
+		    reader = new FileReader();
+		reader.readAsText(file, 'application/json');
+		reader.onload = function (e) {
+			data = JSON.parse(e.target.result);
+			refreshCanvas(0);
+		};
+	});
+	$('#saveButton').on('click', function () {
+		saveAs(new Blob([JSON.stringify(data)], { type : 'application/json;charset=utf-8' }), 'Nicholl Lee Nicholl.json');
 	});
 });
