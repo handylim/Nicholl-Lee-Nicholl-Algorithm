@@ -332,10 +332,14 @@ function clip (startPoint, endPoint) {
 		return;
 
 	if (startPoint.x === endPoint.x) { // to prevent division by zero error
-		if (startPoint.y < endPoint.y) // intersects with top window, the clipped line is (startPoint.x, startPoint.y) to (startPoint.x, clippingWindow.topRight.y)
-			drawLine(startPoint.x, startPoint.y, endPoint.x, clippingWindow.topRight.y, '#f00');
-		else // intersects with bottom window, the clipped line is (startPoint.x, startPoint.y) to (startPoint.x, clippingWindow.bottomLeft.y)
-			drawLine(startPoint.x, startPoint.y, endPoint.x, clippingWindow.bottomLeft.y, '#f00');
+		if (startPoint.y < endPoint.y) {
+			startPoint.y = Math.max(startPoint.y, clippingWindow.topRight.y);
+			endPoint.y = Math.min(endPoint.y, clippingWindow.bottomLeft.y);
+		} else {
+			startPoint.y = Math.min(startPoint.y, clippingWindow.topRight.y);
+			endPoint.y = Math.max(endPoint.y, clippingWindow.bottomLeft.y);
+		}
+		drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y, '#f00');
 		return;
 	}
 
